@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.js"></script>
+    <title>parallelograms</title>
+</head>
+
+<body>
+
+    <script>
+        let w = 600;
+        let h = 600;
+        const start1 = {
+            x1: 200,
+            y1: h - 100,
+            x2: 200,
+            y2: 100
+        }
+        const start2 = {
+            x1: 300,
+            y1: h - 100,
+            x2: 300,
+            y2: 100
+        }
+
+        class Rect {
+            constructor(verts) {
+                this.TL = verts[0];
+                this.TR = verts[1];
+                this.BR = verts[2];
+                this.BL = verts[3];
+            }
+
+            draw() {
+                line(this.TL.x, this.TL.y, this.TR.x, this.TR.y);
+                line(this.BR.x, this.BR.y, this.TR.x, this.TR.y);
+                line(this.TL.x, this.TL.y, this.BL.x, this.BL.y);
+                line(this.BL.x, this.BL.y, this.BR.x, this.BR.y);
+            }
+        }
+        let base, box;
+        function setup() {
+            createCanvas(w, h);
+            background(200);
+            base = new Rect([
+                { x: 200, y: 100 },
+                { x: 300, y: 100 },
+                { x: 300, y: h - 100 },
+                { x: 200, y: h - 100 },
+            ]);
+            base.draw();
+
+            rSlider = createSlider(0, 255, 100);
+            rSlider.position(20, 20);
+            box = new Rect([
+                { x: 200 + rSlider.value(), y: 100 },
+                { x: 300 + rSlider.value(), y: 100 },
+                { x: 300, y: h - 100 },
+                { x: 200, y: h - 100 },
+            ]);
+            box.draw();
+
+
+
+        }
+
+        function draw() {
+            background(200);
+            line(200, 100, w, 100);
+            base.draw();
+
+            box.TL.x = 200 + rSlider.value();
+            box.TR.x = 300 + rSlider.value();
+
+            box.draw();
+        }
+    </script>
+</body>
+
+</html>
