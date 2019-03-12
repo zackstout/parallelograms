@@ -15,6 +15,9 @@
     <script>
         let w = 600;
         let h = 600;
+        let base, box;
+        let radio;
+
         const start1 = {
             x1: 200,
             y1: h - 100,
@@ -42,8 +45,31 @@
                 line(this.TL.x, this.TL.y, this.BL.x, this.BL.y);
                 line(this.BL.x, this.BL.y, this.BR.x, this.BR.y);
             }
+
+            drawTris() {
+                triangle(this.BL.x, this.BL.y, 200, 100, this.TL.x, this.TL.y);
+                triangle(this.BR.x, this.BR.y, 300, 100, this.TR.x, this.TR.y);
+            }
+
+            drawQuads() {
+                // base:
+                beginShape();
+                vertex(this.BL.x, this.BL.y);
+                vertex(this.BR.x, this.BR.y);
+                vertex(300, 100);
+                vertex(200, 100);
+                endShape(CLOSE);
+
+                // current:
+                beginShape();
+                vertex(this.BL.x, this.BL.y);
+                vertex(this.BR.x, this.BR.y);
+                vertex(this.TR.x, this.TR.y);
+                vertex(this.TL.x, this.TL.y);
+                endShape(CLOSE);
+            }
         }
-        let base, box;
+
         function setup() {
             createCanvas(w, h);
             background(200);
@@ -64,6 +90,12 @@
                 { x: 200, y: h - 100 },
             ]);
             box.draw();
+
+            radio = createRadio();
+            radio.option('TRIANGLES');
+            radio.option('QUADRILATERALS');
+            radio.style('width', '60px');
+            textAlign(CENTER);
         }
 
         function draw() {
@@ -74,7 +106,14 @@
             box.TL.x = 200 + rSlider.value();
             box.TR.x = 300 + rSlider.value();
 
+            if (radio.value() === "TRIANGLES") {
+                box.drawTris();
+            }
+            if (radio.value() === "QUADRILATERALS") {
+                box.drawQuads();
+            }
             box.draw();
+
         }
     </script>
 </body>
